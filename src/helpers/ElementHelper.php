@@ -12,6 +12,7 @@ use craft\elements\User;
 use craft\helpers\StringHelper;
 
 use craft\commerce\elements\Product;
+use craft\commerce\elements\Order;
 
 class ElementHelper
 {
@@ -40,6 +41,11 @@ class ElementHelper
             case 'product':
             case 'products':
                 return Searchit::$commerceInstalled ? Product::class : false;
+                break;
+
+            case 'order':
+            case 'orders':
+                return Searchit::$commerceInstalled ? Order::class : false;
                 break;
 
             case 'user':

@@ -18,6 +18,7 @@ use craft\elements\User;
 use craft\elements\Asset;
 
 use craft\commerce\elements\Product;
+use craft\commerce\elements\Order;
 
 use craft\commerce\Plugin as CommercePlugin;
 
@@ -101,19 +102,26 @@ class ElementFilters extends Component
             'sources' => $this->getSupportedSources(Asset::class),
         ];
 
-        // Craft::dd(\craft\commerce\Plugin::getInstance());
+        $plugin = Craft::$app->getPlugins()->getPlugin('commerce');
+        if(Searchit::$plugin->isCommerceEnabled())
+        {
+            $types[Product::class] = [
+                'class' => Product::class,
+                'handle' => 'products',
+                'label' => Craft::t('searchit', 'Products'),
+                'displayName' => Craft::t('searchit', 'Product'),
+                'sources' => $this->getSupportedSources(Product::class),
+            ];
 
-        // $plugin = Craft::$app->getPlugins()->getPlugin('commerce');
-        // if(Searchit::$plugin->isCommerceEnabled())
-        // {
-        //     $types[Product::class] = [
-        //         'class' => Product::class,
-        //         'handle' => 'products',
-        //         'label' => Craft::t('searchit', 'Products'),
-        //         'displayName' => Craft::t('searchit', 'Product'),
-        //         'sources' => $this->getSupportedSources(Product::class),
-        //     ];
-        // }
+            $types[Order::class] = [
+                'class' => Order::class,
+                'handle' => 'orders',
+                'label' => Craft::t('searchit', 'Orders'),
+                'displayName' => Craft::t('searchit', 'Orders'),
+                'sources' => $this->getSupportedSources(Order::class),
+            ];
+
+        }
 
         $this->_supportedElementTypes = $types;
         return $this->_supportedElementTypes;
